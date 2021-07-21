@@ -27,6 +27,9 @@ public:
     }
 };
 
+int64_t new_time = 0;
+int64_t old_time = 0;
+
 static int n_const = 10000000;
 static int nthreads_const = 8;
 
@@ -85,8 +88,9 @@ void test_scalable_bounded_queue_priority(int count, int num, int num2, int scor
         auto endTime = std::chrono::high_resolution_clock::now();
         auto elapsedTime =
                 std::chrono::duration_cast<std::chrono::milliseconds>(endTime - beginTime);
-        std::cout << "scalable priority time is " << elapsedTime.count() << " microseconds"
+        std::cout << "scalable priority time is " << elapsedTime.count() << " milliseconds"
                   << std::endl;
+        new_time += elapsedTime.count();
     }
 }
 
@@ -148,7 +152,8 @@ void test_lock_spmc_queue_deque_wait_seperate_write_and_read_priority(int count,
         auto endTime = std::chrono::high_resolution_clock::now();
         auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - beginTime);
         std::cout << "mutex based priority queue time is " << elapsedTime.count()
-                  << " microseconds" << std::endl;
+                  << " milliseconds" << std::endl;
+        old_time += elapsedTime.count();
     }
 }
 
@@ -185,10 +190,11 @@ int main(int argc, char* argv[]) {
             }
             
            
-            std::cout << "\n\n";
+            std::cout << "\n";
         });
         thread.join();
     }
 
+    std::cout << "new avg: " << (new_time / times) << " old avg: " << (old_time/times) << std::endl;
     return 0;
 }
