@@ -195,6 +195,6 @@ int main(int argc, char* argv[]) {
         thread.join();
     }
 
-    std::cout << "new avg: " << (new_time / times) << " old avg: " << (old_time/times) << std::endl;
+    std::cout << "new avg: " << (new_time / times) << " old avg: " << (old_time/times) << " X: " << (static_cast<double>(old_time) / new_time) << std::endl;
     return 0;
 }
